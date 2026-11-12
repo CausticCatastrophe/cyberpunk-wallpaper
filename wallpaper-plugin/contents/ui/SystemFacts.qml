@@ -27,7 +27,8 @@ Item {
         kernel = clean(l[1]);
         osName = clean((l[2] || "").replace(/"/g, ""));
         cpuModel = clean((l[3] || "").replace(/\([A-Za-z]*\)/g, "").replace(/ CPU/, "").replace(/ @.*/, "")
-                         .replace(/^[0-9]+[a-z]* Gen /, "").replace(/^Intel /, "").replace(/^AMD /, "").replace(/ +/g, " "));
+                         .replace(/^[0-9]+[a-z]* Gen /, "").replace(/^Intel /, "").replace(/^AMD /, "")
+                         .replace(/ [0-9]+-Core Processor$/, "").replace(/ Processor$/, "").replace(/ +/g, " "));
         for (var i = 4; i < l.length; i++) {
             if (l[i].indexOf("plasma-workspace ") === 0) plasma = version(l[i]);
             else if (l[i].indexOf("qt6-base ") === 0) qt = version(l[i]);
