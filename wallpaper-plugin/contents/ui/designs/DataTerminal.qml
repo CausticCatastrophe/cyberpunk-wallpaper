@@ -64,7 +64,7 @@ Base {
     // ---- the grid and the segments ----
     // The background grid has square cells 4% of the screen width wide.
     readonly property real cell: u * 4
-    readonly property real marginX: cell * 3
+    readonly property real marginX: cell * (width / height > 2 ? 3 : 2)   // one square further in on ultrawide
     readonly property real gutterW: cell * 4                 // each side gutter is four cells wide
     readonly property real rightX: Math.round((width - marginX - gutterW) / cell) * cell // left edge of the right gutter, snapped to a grid line
     // The lower blocks end on the last grid line above the bottom margin. When a bottom
