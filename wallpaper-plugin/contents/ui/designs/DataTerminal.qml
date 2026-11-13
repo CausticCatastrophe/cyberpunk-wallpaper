@@ -64,9 +64,9 @@ Base {
     // ---- the grid and the segments ----
     // The background grid has square cells 4% of the screen width wide.
     readonly property real cell: u * 4
-    readonly property real marginX: cell * (width / height > 2 ? 3 : 2)   // one square further in on ultrawide
+    readonly property real marginX: cell * 2
     readonly property real gutterW: cell * 4                 // each side gutter is four cells wide
-    readonly property real rightX: Math.round((width - marginX - gutterW) / cell) * cell // left edge of the right gutter, snapped to a grid line
+    readonly property real rightX: width - marginX - gutterW // left edge of the right gutter
     // The lower blocks end on the last grid line above the bottom margin. When a bottom
     // margin is set (a taskbar), that panel already gives the breathing room, so only a
     // little extra is kept; otherwise 3.5 units.
@@ -174,8 +174,6 @@ Base {
         }
         return { rows: rows, total: at, coresAt: coresAt, cpu: [cpuTop, cpuEnd], gpu: [gpuTop, gpuEnd] };
     }
-    // top block (usage, if shown) + terminal rows + bottom margin and grid rounding
-    fitUnits: (usageRows.length > 0 ? 17 : 4) + layout.total * 2 + 4 + 3.5
     readonly property real termTop: bottomLine - layout.total * rowH
 
     // record one point per graph every sparkStep seconds
@@ -251,7 +249,7 @@ Base {
         height: cells * root.cell
         visible: shown.length > 0
 
-        Rectangle { x: -1; y: blk.pad; width: 2; height: blk.height - 2 * blk.pad; color: blk.tint; opacity: 0.8 }
+        Rectangle { y: blk.pad; width: 2; height: blk.height - 2 * blk.pad; color: blk.tint; opacity: 0.8 }
         Repeater {
             model: blk.shown
             Item {
@@ -338,7 +336,7 @@ Base {
         readonly property real pad: root.u * 0.45
         readonly property real step: Math.min((height - 2 * pad) / Math.max(root.usageRows.length, 1), root.u * 1.9)
 
-        Rectangle { x: -1; y: usageBlock.pad; width: 2; height: usageBlock.height - 2 * usageBlock.pad; color: root.secondary; opacity: 0.8 }
+        Rectangle { y: usageBlock.pad; width: 2; height: usageBlock.height - 2 * usageBlock.pad; color: root.secondary; opacity: 0.8 }
 
         Repeater {
             model: root.usageRows
@@ -421,13 +419,13 @@ Base {
         Rectangle {
             visible: root.layout.cpu[1] > root.layout.cpu[0]
             y: root.layout.cpu[0] * root.rowH
-            x: -1; width: 2; height: (root.layout.cpu[1] - root.layout.cpu[0]) * root.rowH
+            width: 2; height: (root.layout.cpu[1] - root.layout.cpu[0]) * root.rowH
             color: root.accent; opacity: 0.8
         }
         Rectangle {
             visible: root.layout.gpu[1] > root.layout.gpu[0]
             y: root.layout.gpu[0] * root.rowH
-            x: -1; width: 2; height: (root.layout.gpu[1] - root.layout.gpu[0]) * root.rowH
+            width: 2; height: (root.layout.gpu[1] - root.layout.gpu[0]) * root.rowH
             color: root.secondary; opacity: 0.8
         }
 

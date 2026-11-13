@@ -36,13 +36,7 @@ Rectangle {
     property string headFont: "Rajdhani"
     property string monoFont: "Share Tech Mono"
 
-    // 1 unit = 1% of the width, capped so a wider-than-16:9 screen (ultrawide) keeps close to the
-    // vertical proportions of 2:1 instead of growing everything past the height
-    // fitUnits: vertical space (in units) a design needs, so it can shrink the scale
-    // until its content fits the height
-    property real fitUnits: 0
-    readonly property real u: Math.min(width / 100, height * 2 / 100,
-        fitUnits > 0 ? height * (1 - bottomInset) / fitUnits : Infinity)
+    readonly property real u: width / 100   // 1 unit = 1% of the width
 
     default property alias content: slot.data
 
@@ -53,7 +47,6 @@ Rectangle {
             target: root
             function onGridOpacityChanged() { gridCanvas.requestPaint(); }
             function onAccentChanged() { gridCanvas.requestPaint(); }
-            function onUChanged() { gridCanvas.requestPaint(); }
         }
         onPaint: {
             var c = getContext("2d");
@@ -76,7 +69,7 @@ Rectangle {
         height: root.u * 13
         y: root.height * root.titleY
         component TitleText: Text {
-            x: (root.width - root.u * 50) / 2
+            x: root.u * 25
             width: root.u * 50                  // the title may use the middle 50% of the width, leaving room beside the gutters
             horizontalAlignment: Text.AlignHCenter
             fontSizeMode: Text.HorizontalFit    // a wide font shrinks to fit, never overlaps the side columns
@@ -90,7 +83,7 @@ Rectangle {
             font.pixelSize: root.u * 11 * root.titleScale
             font.letterSpacing: root.u * 0.7 * root.titleScale
         }
-        TitleText { x: (root.width - root.u * 50) / 2 - root.u * 0.3; color: root.secondary; opacity: 0.22 }
+        TitleText { x: root.u * 24.7; color: root.secondary; opacity: 0.22 }
         TitleText { id: mainTitle; color: "#e8e6d9"; opacity: 0.65 }
         Text {
             y: root.u * 11.6 * root.titleScale * mainTitle.fit

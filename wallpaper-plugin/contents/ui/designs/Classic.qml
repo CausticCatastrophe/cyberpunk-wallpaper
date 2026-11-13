@@ -12,9 +12,7 @@ Item {
     readonly property color accent: sys.accent
     readonly property color secondary: sys.secondary
     readonly property color fg: "#e8e6d9"
-    // 1 unit = 1% of the width, capped so a wider-than-16:9 screen (ultrawide) keeps close to the
-    // vertical proportions of 2:1 instead of growing everything past the height
-    readonly property real u: Math.min(width / 100, height * 2 / 100)
+    readonly property real u: width / 100   // 1 unit = 1% of the width
 
     // bundled fonts (SIL OFL, see contents/fonts/); system fonts if they are missing
     FontLoader { id: fBold; source: Qt.resolvedUrl("../../fonts/Rajdhani-Bold.ttf") }
@@ -149,7 +147,7 @@ Item {
         }
 
         // rule and caption near the bottom
-        Rectangle { x: (root.width - root.u * 40) / 2; width: root.u * 40; y: root.height * 0.88; height: 1; color: root.accent; opacity: 0.35 }
+        Rectangle { x: root.u * 30; width: root.u * 40; y: root.height * 0.88; height: 1; color: root.accent; opacity: 0.35 }
         Text {
             y: root.height * 0.88 + root.u * 0.8
             width: root.width
